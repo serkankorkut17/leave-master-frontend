@@ -6,6 +6,12 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { user, login } = useAuthContext();
 
+  const [form, setForm] = React.useState({
+    email: '',
+    password: '',
+    remember: 'false',
+  });
+
   useEffect(() => {
     if (user) {
       navigate('/');
@@ -15,14 +21,74 @@ const LoginPage = () => {
   const loginHandler = () => {
     login('serkan');
     navigate('/');
-    navigate(0)
+    navigate(0);
+  };
+
+  const handleFormFieldChange = (fieldName, e) => {
+    setForm({ ...form, [fieldName]: e.target.value });
+    console.log(form);
   };
   return (
     <>
-      <h1 className="text-4xl font-bold text-center mt-20">Login Page</h1>
-      <button className="" onClick={loginHandler}>
-        Login
-      </button>
+      <form className="max-w-sm mx-auto p-4 md:p-5 mt-16" onSubmit={loginHandler}>
+        <div className="mb-5">
+          <label
+            htmlFor="email"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Your email
+          </label>
+          <input
+            type="email"
+            id="email"
+            onChange={(e) => handleFormFieldChange('email', e)}
+            value={form.email}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="name@flowbite.com"
+            required
+          />
+        </div>
+        <div className="mb-5">
+          <label
+            htmlFor="password"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Your password
+          </label>
+          <input
+            type="password"
+            id="password"
+            onChange={(e) => handleFormFieldChange('password', e)}
+            value={form.password}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required
+          />
+        </div>
+        <div className="flex items-start mb-5">
+          <div className="flex items-center h-5">
+            <input
+              id="remember"
+              type="checkbox"
+              value={form.remember}
+              //**** onChange={(e) => handleFormFieldChange('remember', e)} to be implemented ****//
+              className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+              // required
+            />
+          </div>
+          <label
+            htmlFor="remember"
+            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          >
+            Remember me
+          </label>
+        </div>
+        <button
+          type="submit"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Login
+        </button>
+      </form>
     </>
   );
 };
