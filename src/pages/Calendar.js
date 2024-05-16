@@ -1,58 +1,109 @@
 import React, { useState } from "react";
-import dayjs from "dayjs";
 import CalendarDays from "../components/CalendarDays";
 
-const CalendarPage = () => {
+const Calendar = () => {
+  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   const [currentDay, setCurrentDay] = useState(new Date());
 
-  const handleDayChange = (day) => {
+  const changeCurrentDay = (day) => {
     setCurrentDay(new Date(day.year, day.month, day.number));
   };
-  const month = 6; // May
-  const year = 2024;
 
-  const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-  const firstDayOfMonth = dayjs()
-    .set("year", year)
-    .set("month", month - 1)
-    .startOf("month");
-  const daysInMonth = firstDayOfMonth.daysInMonth();
-  const monthDays = Array.from(new Array(daysInMonth).keys()).map((index) => {
-    return firstDayOfMonth.add(index, "day");
-  });
-  const startDayOfWeek = firstDayOfMonth.day() - 1;
-  const precedingDays = Array.from(new Array(startDayOfWeek).keys()).map(
-    () => null
-  );
-  const succeedDays = Array.from(
-    new Array(35 - daysInMonth - precedingDays.length).keys()
-  ).map(() => null);
+  const nextMonth = () => {
+    setCurrentDay(prevDay => {
+      const newDate = new Date(prevDay.getFullYear(), prevDay.getMonth() + 1, prevDay.getDate());
+      return newDate;
+    });
+  };
+  
+  const previousMonth = () => {
+    setCurrentDay(prevDay => {
+      const newDate = new Date(prevDay.getFullYear(), prevDay.getMonth() - 1, prevDay.getDate());
+      return newDate;
+    });
+  };
 
   return (
     <div className="h-full mt-16">
-      <div className="w-900 h-600 flex flex-col">
-        <div className="h-100 w-full flex items-center">
-          <h2>{firstDayOfMonth.format("MMMM YYYY")}</h2>
-        </div>
-        <div className="w-full flex-grow flex flex-col">
-          <div className="h-100 w-full flex items-center justify-around">
-            {weekdays.map((weekday) => {
-              return (
-                <div className="w-100 text-center" key={weekday}>
-                  <p>{weekday}</p>
-                </div>
-              );
-            })}
+      <div className="calendar">
+        <div className="calendar-header">
+          <div className="title">
+            <h2>
+              {months[currentDay.getMonth()]} {currentDay.getFullYear()}
+            </h2>
           </div>
-          <CalendarDays
-            day={currentDay}
-            changeCurrentDay={handleDayChange}
-          />
+          <div className="tools">
+            <button onClick={previousMonth}>
+              <svg
+                class="w-6 h-6 text-gray-800 dark:text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 12h14M5 12l4-4m-4 4 4 4"
+                />
+              </svg>
+            </button>
+            <p>
+              {months[currentDay.getMonth()].substring(0, 3)}
+            </p>
+            <button onClick={nextMonth}>
+              <svg
+                class="w-6 h-6 text-gray-800 dark:text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 12H5m14 0-4 4m4-4-4-4"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div className="calendar-body">
+          <div className="table-header">
+            {weekdays.map((weekday, index) => (
+              <div key={index} className="weekday">
+                <p>{weekday}</p>
+              </div>
+            ))}
+          </div>
+          <CalendarDays day={currentDay} changeCurrentDay={changeCurrentDay} />
         </div>
       </div>
     </div>
   );
 };
 
-export default CalendarPage;
+export default Calendar;
