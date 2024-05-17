@@ -18,7 +18,7 @@ code {
 
 /* Path: src/pages/Calendar.js */
 .calendar {
-  @apply w-full max-w-[900px] h-auto md:h-[600px] flex flex-col mt-8 mx-auto;
+  @apply w-full max-w-[900px] h-auto md:h-[600px] lg:max-w-[1200px] lg:h-[800px] flex flex-col mt-8 mx-auto;
 }
 
 .calendar-header {
@@ -41,6 +41,10 @@ code {
   @apply m-auto flex items-center justify-center box-border bg-white border-none;
 }
 
+.tools p {
+  @apply font-semibold text-lg md:text-xl lg:text-2xl;
+}
+
 .tools button span:hover {
   @apply text-[#99cccc];
 }
@@ -50,11 +54,11 @@ code {
 }
 
 .table-header {
-  @apply h-16 md:h-[100px] w-full grid grid-cols-7 items-center justify-around;
+  @apply h-16 md:h-16 lg:h-20 w-full grid grid-cols-7 items-center justify-around;
 }
 
 .weekday {
-  @apply text-center;
+  @apply text-center text-lg md:text-xl lg:text-2xl font-semibold;
 }
 
 .table-content {
@@ -62,7 +66,7 @@ code {
 }
 
 .calendar-day {
-  @apply w-full h-[60px] md:h-[75px] relative border border-[#a6a6a6];
+  @apply w-full h-[60px] md:h-[80px] lg:h-[120px] relative border border-[#a6a6a6];
 }
 
 .calendar-day:hover {
@@ -70,7 +74,7 @@ code {
 }
 
 .calendar-day p {
-  @apply absolute right-[5px] md:right-[10px] text-[#a6a6a6];
+  @apply absolute right-2 md:right-3 lg:right-5 top-1 md:top-2 lg:top-4 text-base md:text-lg lg:text-xl  text-[#a6a6a6];
 }
 
 .current p {
@@ -81,6 +85,17 @@ code {
   @apply text-[#cc0000] font-bold;
 }
 
+.different-type  {
+  @apply bg-yellow-300 dark:bg-yellow-500;
+}
+
+.same-type {
+  @apply bg-rose-800 dark:bg-rose-500;
+}
+
+.selected.different-type p, .selected.same-type p {
+  @apply text-sky-600 dark:text-sky-300;
+}
 
 .dark .current p {
   @apply text-white;

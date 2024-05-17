@@ -10,6 +10,7 @@ import HomePage from './pages/Home';
 import SignupPage from './pages/Signup';
 import LoginPage from './pages/Login';
 import CalendarPage from './pages/Calendar';
+import LeaveRequestPage from './pages/LeaveRequest';
 
 import { AuthProvider } from './context/Auth';
 
@@ -27,6 +28,7 @@ export default function App() {
             <Route path="signup" element={<SignupPage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="calendar" element={<CalendarPage />} />
+            <Route path="leave-request" element={<LeaveRequestPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>
         </Routes>
