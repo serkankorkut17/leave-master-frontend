@@ -15,9 +15,6 @@ import LeaveRequestPage from './pages/LeaveRequest';
 import { AuthProvider } from './context/Auth';
 
 export default function App() {
-  useEffect(() => {
-    document.title = 'Leave Master';
-  });
 
   return (
     <BrowserRouter>

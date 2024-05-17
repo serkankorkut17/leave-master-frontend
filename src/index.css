@@ -15,6 +15,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* change scrollbar */
+::-webkit-scrollbar {
+  @apply  w-0 h-0;
+}
+
+
+/* Dark mode
+.dark {
+  --bg-color: #1a202c;
+  --text-color: #e2e8f0;
+  --border-color: #2d3748;
+  --hover-bg-color: #2d3748;
+  --hover-text-color: #e2e8f0;
+  --hover-border-color: #2d3748;
+} */
 
 /* Path: src/pages/Calendar.js */
 .calendar {
@@ -66,7 +81,7 @@ code {
 }
 
 .calendar-day {
-  @apply w-full h-[60px] md:h-[80px] lg:h-[120px] relative border border-[#a6a6a6];
+  @apply w-full h-[60px] md:h-[82px] lg:h-[120px] relative border border-[#a6a6a6];
 }
 
 .calendar-day:hover {
@@ -94,7 +109,7 @@ code {
 }
 
 .selected.different-type p, .selected.same-type p {
-  @apply text-sky-600 dark:text-sky-300;
+  @apply text-blue-700 dark:text-blue-500;
 }
 
 .dark .current p {

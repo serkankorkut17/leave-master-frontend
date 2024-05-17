@@ -1,10 +1,12 @@
-import React from "react";
-import { useAuthContext } from "../context/Auth";
+import React from 'react';
+import { useAuthContext } from '../context/Auth';
 
 function HomePage() {
-
   return (
-    <h1 className="text-4xl font-bold text-center mt-20">Home Page</h1>
+    <div className="container mx-auto mt-16">
+      <h1 className="text-4xl font-bold text-center">Home Page</h1>
+      <p className="text-center mt-5">Welcome to the Home Page</p>
+    </div>
   );
 }
 

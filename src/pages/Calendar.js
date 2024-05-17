@@ -28,6 +28,10 @@ const Calendar = () => {
 
   const changeCurrentDay = day => {
     setCurrentDay(new Date(day.year, day.month, day.number));
+    // change only if month is different
+    // if (day.month !== currentDay.getMonth()) {
+    //   setCurrentDay(new Date(day.year, day.month, day.number));
+    // }
   };
 
   const nextMonth = () => {
@@ -53,7 +57,6 @@ const Calendar = () => {
   };
 
   useEffect(() => {
-    document.title = 'Calendar';
     //wait for 500ms
     setTimeout(() => {
       setCollisionDays({
