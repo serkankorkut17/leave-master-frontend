@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UserNav from './UserNav';
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../context/Auth";
+import { ReactComponent as Logo } from './../leave-master.svg';
 
 const Navigation = () => {
   const { user } = useAuthContext();
@@ -45,12 +46,7 @@ const Navigation = () => {
               </svg>
             </button>
             <Link to="/" className="flex ml-2 md:mr-24">
-              <img
-                src="https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/work-experience-icon.png"
-                // className="h-8 mr-3 "
-                className='h-8 mr-3 sm:h-10 sm:mr-4'
-                alt="Leave Master Logo"
-              />
+              <Logo className={"h-8 mr-3 sm:h-10 sm:mr-4" + " filter dark:invert dark:sepia-0 dark:saturate-0 dark:hue-rotate-0 dark:brightness-100 dark:contrast-100 "} />
               <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                 Leave Master
               </span>
