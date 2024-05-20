@@ -5,11 +5,11 @@ import { useAuthContext } from "../../context/Auth";
 import { ReactComponent as Logo } from './../leave-master.svg';
 
 const Navigation = () => {
-  const { user } = useAuthContext();
+  const { user, isLoggedIn } = useAuthContext();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    if (isLoggedIn() && user) {
       setIsAuthenticated(true);
     }
     else {

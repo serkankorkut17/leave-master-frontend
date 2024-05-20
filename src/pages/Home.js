@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuthContext } from '../context/Auth';
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const { user,isLoggedIn } = useAuthContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      navigate("/login");
+    }
+  }
+  , [isLoggedIn, navigate]);
+
   return (
     <div className="container mx-auto mt-16">
       <h1 className="text-4xl font-bold text-center">Home Page</h1>

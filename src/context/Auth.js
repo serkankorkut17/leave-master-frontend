@@ -27,37 +27,19 @@ export const AuthProvider = ({ children }) => {
       axios.defaults.headers.common["Authorization"] = "Bearer " + storedToken;
     }
     setIsReady(true);
-
-    // const storedUser = localStorage.getItem('user');
-    // if (storedUser) {
-    //   setUser(JSON.parse(storedUser));
-    //   setUserInfo({
-    //     firstName: 'Serkan',
-    //     lastName: 'Korkut',
-    //     email: 'serkankorkut@gmail.com',
-    //     imageUrl:
-    //       'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745',
-    //   });
-    // }
   }, []);
 
-  const signup = async (email, password, firstName, lastName) => {
+  const signup = async (firstName, lastName, email, startDate, password, confirmPassword) => {
+    // console.log(firstName, lastName, email, startDate, password, confirmPassword);
     try {
-      const response = await registerAPI(email, password, firstName, lastName);
+      const response = await registerAPI(firstName, lastName, email, startDate, password, confirmPassword);
       if (response) {
-        localStorage.setItem("token", response.data.token);
-        const userObj = {
-          email: response.data.user.email,
-          firstName: response.data.user.firstName,
-          lastName: response.data.user.lastName,
-          imageUrl:
-            "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
-        };
-        localStorage.setItem("user", JSON.stringify(userObj));
-        setToken(response.data.token);
-        setUser(userObj);
         toast.success("Signup successful");
-        navigate("/");
+        console.log(response.data);
+        navigate("/login");
+      }
+      else {
+        toast.warning("Email already exists! Please login.");
       }
     } catch (error) {
       toast.warning("Server error occurred");
@@ -67,12 +49,13 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await loginAPI(email, password);
+      console.log("response", response);
       if (response) {
         localStorage.setItem("token", response.data.token);
         const userObj = {
-          email: response.data.user.email,
-          firstName: response.data.user.firstName,
-          lastName: response.data.user.lastName,
+          email: response.data.email,
+          firstName: response.data.firstName,
+          lastName: response.data.lastName,
           imageUrl:
             "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
         };
@@ -82,11 +65,13 @@ export const AuthProvider = ({ children }) => {
         toast.success("Login successful");
         navigate("/");
       }
+      else {
+        toast.warning("Invalid email or password! Please try again.");
+      }
     } catch (error) {
+      console.log(error);
       toast.warning("Server error occurred");
     }
-    // setUser(userData);
-    // localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {
@@ -95,8 +80,6 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setToken(null);
     navigate("/login");
-    // setUser(null);
-    // localStorage.removeItem("user");
   };
 
   const isLoggedIn = () => {

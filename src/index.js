@@ -12,6 +12,7 @@ import LoginPage from './pages/Login';
 import CalendarPage from './pages/Calendar';
 import LeaveRequestPage from './pages/LeaveRequest';
 
+
 import { AuthProvider } from './context/Auth';
 
 export default function App() {
