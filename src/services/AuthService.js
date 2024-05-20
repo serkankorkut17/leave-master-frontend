@@ -34,3 +34,16 @@ export const registerAPI = async (firstName, lastName, email, startDate, passwor
     console.error(error);
   }
 };
+
+// reset password request
+export const resetPasswordRequestAPI = async (email) => {
+  try {
+    const data = await axios.post(api + "auth/reset-password-request", {
+      email: email,
+    });
+    return data;
+  } catch (error) {
+    // handleError(error);
+    console.error(error);
+  }
+};

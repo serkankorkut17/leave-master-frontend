@@ -2,7 +2,7 @@ import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { loginAPI, registerAPI } from "../services/AuthService";
+import { loginAPI, registerAPI, resetPasswordRequestAPI } from "../services/AuthService";
 
 export const AuthContext = createContext();
 
@@ -74,6 +74,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const resetPassword = async (email) => {
+    try {
+      const response = await resetPasswordRequestAPI(email);
+      if (response) {
+        toast.success("Password reset request successful");
+      }
+      else {
+        toast.warning("Email not found! Please try again.");
+      }
+    } catch (error) {
+      toast.warning("Server error occurred");
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -87,7 +101,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, signup, login, logout, isLoggedIn}}>
+    <AuthContext.Provider value={{ user, token, signup, login, logout, resetPassword, isLoggedIn}}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../context/Auth";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import ResetPasswordModal from "../components/ResetPasswordModal";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -12,7 +13,8 @@ const validationSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { user, login } = useAuthContext();
+  const { user, login, resetPassword } = useAuthContext();
+  const [openModal, setOpenModal] = useState(false);
 
   const {
     register,
@@ -30,11 +32,9 @@ const LoginPage = () => {
     }
   };
 
-  // const [form, setForm] = React.useState({
-  //   email: '',
-  //   password: '',
-  //   remember: 'false',
-  // });
+  const forgetPasswordHandler = () => {
+    setOpenModal(true);
+  };
 
   useEffect(() => {
     if (user) {
@@ -95,12 +95,12 @@ const LoginPage = () => {
               </div>
               <div className="flex justify-between items-center mb-6">
                 <div>
-                  <a
-                    href="#"
+                  <button
+                    onClick={forgetPasswordHandler}
                     className="text-sm text-blue-600 hover:underline dark:text-blue-400"
                   >
                     Forgot password?
-                  </a>
+                  </button>
                 </div>
               </div>
               <button
@@ -113,6 +113,7 @@ const LoginPage = () => {
           </div>
         </div>
       </section>
+      {openModal && <ResetPasswordModal setOpenModal={setOpenModal} resetPassword={resetPassword} />}
     </>
   );
 };
