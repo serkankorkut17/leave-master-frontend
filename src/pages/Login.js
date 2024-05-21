@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import ResetPasswordModal from "../components/ResetPasswordModal";
+import Loading from "../components/Loading";
+import { set } from "date-fns";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -12,6 +14,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { user, login, resetPasswordRequest } = useAuthContext();
   const [openModal, setOpenModal] = useState(false);
@@ -25,11 +28,13 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
     try {
       await login(data.email, data.password);
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
   const forgetPasswordHandler = () => {
@@ -44,6 +49,7 @@ const LoginPage = () => {
 
   return (
     <>
+      {isLoading && <Loading />}
       <section className="h-full my-16 bg-gray-100 dark:bg-gray-900">
         <div className="container mx-auto h-full flex justify-center items-center px-4">
           <div className="relative top-[-50px] bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 md:p-12 w-full max-w-md md:max-w-lg">

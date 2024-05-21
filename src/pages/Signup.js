@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../context/Auth";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import Loading from "../components/Loading";
+import { set } from "date-fns";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required(),
@@ -24,6 +26,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const SignupPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { user, signup } = useAuthContext();
 
@@ -37,6 +40,7 @@ const SignupPage = () => {
 
   const onSubmit = async (data) => {
     // console.log(data);
+    setIsLoading(true);
     try {
       await signup(
         data.firstName,
@@ -50,6 +54,7 @@ const SignupPage = () => {
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -60,6 +65,7 @@ const SignupPage = () => {
 
   return (
     <>
+      {isLoading && <Loading />}
       <section className="h-full mt-16 bg-gray-100 dark:bg-gray-900">
         <div className="container mx-auto h-full flex justify-center items-center px-4">
           <div className="relative bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-4 md:p-8 w-full max-w-md md:max-w-lg">
