@@ -18,12 +18,13 @@ export const loginAPI = async (email, password) => {
   }
 };
 
-export const registerAPI = async (firstName, lastName, email, startDate, password, confirmPassword) => {
+export const registerAPI = async (firstName, lastName, email, employeeRole, startDate, password, confirmPassword) => {
   try {
     const data = await axios.post(api + "auth/register", {
       firstName: firstName,
       lastName: lastName,
       email: email,
+      employeeRole: employeeRole,
       startDate: startDate,
       password: password,
       confirmPassword: confirmPassword,
@@ -47,3 +48,19 @@ export const resetPasswordRequestAPI = async (email) => {
     console.error(error);
   }
 };
+
+export const resetPasswordAPI = async (token, email, password, confirmPassword) => {
+  try {
+    const data = await axios.post(api + "auth/reset-password", {
+      token: token,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    });
+    console.log(data);
+    return data;
+  } catch (error) {
+    // handleError(error);
+    console.error(error);
+  }
+}

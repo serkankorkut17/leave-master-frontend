@@ -9,6 +9,12 @@ const validationSchema = Yup.object().shape({
   firstName: Yup.string().required(),
   lastName: Yup.string().required(),
   email: Yup.string().email().required(),
+  employeeRole: Yup.string()
+    .required()
+    .oneOf(
+      ["frontend", "backend", "fullstack", "designer", "manager", "hr"],
+      "Invalid Employee Role"
+    ),
   startDate: Yup.date().required(),
   password: Yup.string().required(),
   repeatPassword: Yup.string().oneOf(
@@ -36,6 +42,7 @@ const SignupPage = () => {
         data.firstName,
         data.lastName,
         data.email,
+        data.employeeRole,
         data.startDate,
         data.password,
         data.repeatPassword
@@ -55,7 +62,7 @@ const SignupPage = () => {
     <>
       <section className="h-full mt-16 bg-gray-100 dark:bg-gray-900">
         <div className="container mx-auto h-full flex justify-center items-center px-4">
-          <div className="relative bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-6 md:p-12 w-full max-w-md md:max-w-lg">
+          <div className="relative bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-4 md:p-8 w-full max-w-md md:max-w-lg">
             <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-6 md:mb-8">
               Register a New Account
             </h1>
@@ -120,6 +127,32 @@ const SignupPage = () => {
                 {errors.email && (
                   <span className="text-red-500 text-sm">
                     {errors.email.message}
+                  </span>
+                )}
+              </div>
+              <div className="mb-4 md:mb-6">
+                <label
+                  htmlFor="employee-role"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Employee Type
+                </label>
+                <select
+                  id="employee-type"
+                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition duration-200"
+                  {...register("employeeRole")}
+                  required
+                >
+                  <option value="frontend">Frontend Developer</option>
+                  <option value="backend">Backend Developer</option>
+                  <option value="fullstack">Fullstack Developer</option>
+                  <option value="designer">Designer</option>
+                  <option value="manager">Manager</option>
+                  <option value="hr">HR</option>
+                </select>
+                {errors.employeeRole && (
+                  <span className="text-red-500 text-sm">
+                    {errors.employeeRole.message}
                   </span>
                 )}
               </div>

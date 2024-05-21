@@ -2,7 +2,6 @@ import React from "react";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { set } from "date-fns";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -31,7 +30,7 @@ const ResetPasswordModal = (props) => {
   return (
     <>
       {/* // <!-- Main modal --> */}
-      <div className="overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full inset-0 flex">
+      <div className="sm:ml-32 overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full inset-0 flex">
         <div className="z-50 relative p-4 w-full max-w-md max-h-full">
           {/* <!-- Modal content --> */}
           <div className="relative bg-white rounded-lg shadow-xl dark:bg-gray-700">

@@ -1,22 +1,21 @@
-import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './index.css';
+import React, { useEffect } from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./index.css";
 // import 'flowbite';
 
-import ErrorPage from './pages/Error';
-import Layout from './pages/Layout';
-import HomePage from './pages/Home';
-import SignupPage from './pages/Signup';
-import LoginPage from './pages/Login';
-import CalendarPage from './pages/Calendar';
-import LeaveRequestPage from './pages/LeaveRequest';
+import ErrorPage from "./pages/Error";
+import Layout from "./pages/Layout";
+import HomePage from "./pages/Home";
+import SignupPage from "./pages/Signup";
+import LoginPage from "./pages/Login";
+import CalendarPage from "./pages/Calendar";
+import LeaveRequestPage from "./pages/LeaveRequest";
+import ResetPasswordPage from "./pages/ResetPassword";
 
-
-import { AuthProvider } from './context/Auth';
+import { AuthProvider } from "./context/Auth";
 
 export default function App() {
-
   return (
     <BrowserRouter>
       <AuthProvider>
@@ -27,6 +26,10 @@ export default function App() {
             <Route path="login" element={<LoginPage />} />
             <Route path="calendar" element={<CalendarPage />} />
             <Route path="leave-request" element={<LeaveRequestPage />} />
+            <Route
+              path="/reset-password/:token/:email"
+              element={<ResetPasswordPage />}
+            />
             <Route path="*" element={<ErrorPage />} />
           </Route>
         </Routes>
@@ -35,5 +38,5 @@ export default function App() {
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);

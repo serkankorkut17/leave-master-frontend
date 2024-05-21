@@ -20,6 +20,10 @@ code {
   @apply  w-0 h-0;
 }
 
+body {
+  @apply bg-gray-100 dark:bg-gray-900;
+}
+
 .filter-white{
   filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
 }

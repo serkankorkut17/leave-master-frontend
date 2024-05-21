@@ -2,7 +2,7 @@ import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { loginAPI, registerAPI, resetPasswordRequestAPI } from "../services/AuthService";
+import { loginAPI, registerAPI, resetPasswordRequestAPI, resetPasswordAPI } from "../services/AuthService";
 
 export const AuthContext = createContext();
 
@@ -29,10 +29,10 @@ export const AuthProvider = ({ children }) => {
     setIsReady(true);
   }, []);
 
-  const signup = async (firstName, lastName, email, startDate, password, confirmPassword) => {
+  const signup = async (firstName, lastName, email, employeeRole, startDate, password, confirmPassword) => {
     // console.log(firstName, lastName, email, startDate, password, confirmPassword);
     try {
-      const response = await registerAPI(firstName, lastName, email, startDate, password, confirmPassword);
+      const response = await registerAPI(firstName, lastName, email, employeeRole, startDate, password, confirmPassword);
       if (response) {
         toast.success("Signup successful");
         console.log(response.data);
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const resetPassword = async (email) => {
+  const resetPasswordRequest = async (email) => {
     try {
       const response = await resetPasswordRequestAPI(email);
       if (response) {
@@ -82,6 +82,21 @@ export const AuthProvider = ({ children }) => {
       }
       else {
         toast.warning("Email not found! Please try again.");
+      }
+    } catch (error) {
+      toast.warning("Server error occurred");
+    }
+  };
+
+  const resetPassword = async (token, email, password, confirmPassword) => {
+    try {
+      const response = await resetPasswordAPI(token, email, password, confirmPassword);
+      if (response) {
+        toast.success("Password reset successful");
+        navigate("/login");
+      }
+      else {
+        toast.warning("Password reset failed! Please try again.");
       }
     } catch (error) {
       toast.warning("Server error occurred");
@@ -101,7 +116,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, signup, login, logout, resetPassword, isLoggedIn}}>
+    <AuthContext.Provider value={{ user, token, signup, login, logout, resetPassword, resetPasswordRequest, isLoggedIn}}>
       {children}
     </AuthContext.Provider>
   );
