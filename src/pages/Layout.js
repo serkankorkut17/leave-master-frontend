@@ -10,7 +10,7 @@ const Layout = ({children}) => {
     <>
       <Navigation />
       <Sidebar />
-      <main className="h-screen overflow-auto sm:ml-64 dark:bg-gray-900">
+      <main className="h-screen overflow-auto sm:ml-64 dark:bg-gray-900 mb-4">
         <Outlet />
         <ToastContainer />
       </main>

@@ -70,7 +70,7 @@ const Calendar = () => {
   return (
     <>
       {isLoading && <Loading />}
-      <div className="h-full mt-16">
+      <div className="h-full mt-16 px-4 py-1 mb-4">
         <div className="calendar">
           <div className="calendar-header">
             <div className="title">

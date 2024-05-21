@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => {
   return (
     <footer className="bg-gray-100 dark:bg-gray-800 py-6 sm:ml-64">
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-2">
         <span className="text-sm text-gray-600 dark:text-gray-400">
           © 2024{' '}
           <a href="https://leavemaster.com/" className="hover:underline font-semibold">
