@@ -99,6 +99,14 @@ body {
   @apply bg-black bg-opacity-10;
 }
 
+.same-type.calendar-day:hover, .different-type.calendar-day:hover {
+  @apply bg-red-300; 
+}
+
+.dark .same-type.calendar-day:hover, .dark .different-type.calendar-day:hover {
+  @apply bg-red-500; 
+}
+
 .calendar-day p {
   @apply absolute right-2 md:right-3 lg:right-5 top-1 md:top-2 lg:top-4 text-base md:text-lg lg:text-xl  text-[#a6a6a6];
 }
