@@ -1,13 +1,13 @@
-import React from 'react';
-import { useState } from 'react';
+import React from "react";
+import { useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
 import { addDays } from "date-fns";
-import 'react-day-picker/src/style.css';
+import "react-day-picker/src/style.css";
 
 const LeaveRequestPage = () => {
   const initialRange = {
     from: new Date(),
-    to: addDays(new Date(), 2)
+    to: addDays(new Date(), 2),
   };
 
   const [range, setRange] = useState(initialRange);
@@ -29,7 +29,9 @@ const LeaveRequestPage = () => {
 
   return (
     <div className="container mx-auto mt-16">
-      <h1 className="text-4xl font-bold text-center dark:text-white">Leave Request Page</h1>
+      <h1 className="text-4xl font-bold text-center dark:text-white">
+        Leave Request Page
+      </h1>
       <div className="mx-auto max-w-md flex justify-center items-center dark:bg-gray-800 text-center mt-5 rounded-xl">
         <DayPicker
           mode="range"
@@ -37,9 +39,18 @@ const LeaveRequestPage = () => {
           max={5}
           selected={range}
           onSelect={handleSelect}
-          disabled={day => day < new Date()}
+          disabled={(day) => day < new Date()}
           className="justify-center dark:text-white"
         />
+      </div>
+      {/* button */}
+      <div className="flex justify-center mt-5">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => console.log(range)}
+        >
+          Submit
+        </button>
       </div>
     </div>
   );

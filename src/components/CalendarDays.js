@@ -49,6 +49,7 @@ function CalendarDays(props) {
                 : '')
             }
             onClick={() => props.changeCurrentDay(day)}
+            key={day.date}
           >
             <p>{day.number}</p>
           </div>

@@ -81,7 +81,7 @@ const Calendar = () => {
             <div className="tools">
               <button onClick={previousMonth}>
                 <svg
-                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  className="w-6 h-6 text-gray-800 dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -91,9 +91,9 @@ const Calendar = () => {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M5 12h14M5 12l4-4m-4 4 4 4"
                   />
                 </svg>
@@ -101,7 +101,7 @@ const Calendar = () => {
               <p>{months[currentDay.getMonth()].substring(0, 3)}</p>
               <button onClick={nextMonth}>
                 <svg
-                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  className="w-6 h-6 text-gray-800 dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -111,9 +111,9 @@ const Calendar = () => {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M19 12H5m14 0-4 4m4-4-4-4"
                   />
                 </svg>
