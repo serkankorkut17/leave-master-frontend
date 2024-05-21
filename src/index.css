@@ -116,7 +116,7 @@ body {
 }
 
 .same-type {
-  @apply bg-rose-800 dark:bg-rose-500;
+  @apply /* bg-rose-800 dark:bg-rose-500 */ bg-red-600 dark:bg-red-800;
 }
 
 .selected.different-type p, .selected.same-type p {
