@@ -6,7 +6,8 @@ import "react-day-picker/src/style.css";
 
 const LeaveRequestPage = () => {
   const initialRange = {
-    from: new Date(),
+    // from tomorrow
+    from: addDays(new Date(), 1),
     to: addDays(new Date(), 2),
   };
 
