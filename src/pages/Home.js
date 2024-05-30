@@ -137,7 +137,7 @@ function HomePage() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                         {request.reason}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-4">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-4 pointer-events-none">
                         <button
                           onClick={() => handleApprove(request.id)}
                           className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-600 p-2"

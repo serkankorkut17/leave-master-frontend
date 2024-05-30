@@ -77,14 +77,6 @@ const Calendar = () => {
     };
     fetchLeaves();
     setIsLoading(false);
-    //wait for 500ms
-    // setTimeout(() => {
-    //   setCollisionDays({
-    //     sameType: [1, 2, 3, 4, 5, 10, 29],
-    //     differentType: [4, 5, 6, 7, 8, 9, 10, 17, 30],
-    //   });
-    //   setIsLoading(false);
-    // }, 500);
   }, [currentDay, token]);
 
   return (

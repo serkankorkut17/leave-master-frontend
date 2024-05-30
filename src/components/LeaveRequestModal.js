@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../context/Auth";
 import { getLeaveRequestAPI } from "../services/LeaveRequestService";
+import Loading from "./Loading";
 
 const LeaveRequestModal = (props) => {
   const { setOpenModal, requestId } = props;
@@ -8,6 +9,8 @@ const LeaveRequestModal = (props) => {
   const [sameRoleCollisions, setSameRoleCollisions] = useState([]);
   const [differentRoleCollisions, setDifferentRoleCollisions] = useState([]);
   const [recommendation, setRecommendation] = useState("");
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const { token } = useAuthContext();
 
@@ -26,12 +29,14 @@ const LeaveRequestModal = (props) => {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     };
     fetchLeaveRequest();
   }, [token, requestId]);
 
   return (
     <>
+      {isLoading && <Loading />}
       <div className="sm:ml-32 overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full inset-0 flex">
         <div className="z-50 relative p-4 w-full max-w-md max-h-full">
           <div className="relative bg-white rounded-lg shadow-xl dark:bg-gray-700">

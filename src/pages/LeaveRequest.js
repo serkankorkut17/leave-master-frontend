@@ -13,6 +13,7 @@ import {
 import { useAuthContext } from "../context/Auth";
 import Loading from "../components/Loading";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
   reason: Yup.string().required().max(200),
@@ -20,6 +21,7 @@ const validationSchema = Yup.object().shape({
 
 const LeaveRequestPage = () => {
   const { token } = useAuthContext();
+  const navigate = useNavigate();
   const initialRange = {
     // from tomorrow
     from: addDays(new Date(), 1),
@@ -53,6 +55,10 @@ const LeaveRequestPage = () => {
       }
       if (response.statusText == "OK") {
         toast.success("Leave request sent successfully");
+        navigate("/");
+      }
+      else if (response.status == 400) {
+        toast.error(response.data);
       }
     } catch (error) {
       console.error(error);
@@ -114,7 +120,7 @@ const LeaveRequestPage = () => {
                 <DayPicker
                   mode="range"
                   // min={1}
-                  max={maxLeaveDays}
+                  // max={maxLeaveDays}
                   selected={range}
                   onSelect={handleSelect}
                   disabled={(day) => day < new Date()}
