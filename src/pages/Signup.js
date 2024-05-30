@@ -17,7 +17,7 @@ const validationSchema = Yup.object().shape({
       ["analyst","frontend", "backend", "fullstack", "tester", "designer"],
       "Invalid Employee Role"
     ),
-  startDate: Yup.date().required(),
+  code: Yup.string().required(),
   password: Yup.string().required(),
   repeatPassword: Yup.string().oneOf(
     [Yup.ref("password"), null],
@@ -47,7 +47,7 @@ const SignupPage = () => {
         data.lastName,
         data.email,
         data.employeeRole,
-        data.startDate,
+        data.code,
         data.password,
         data.repeatPassword
       );
@@ -165,21 +165,22 @@ const SignupPage = () => {
               </div>
               <div className="mb-4 md:mb-6">
                 <label
-                  htmlFor="start-date"
+                  htmlFor="code"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                 >
-                  Start Date
+                  Signup Code
                 </label>
                 <input
-                  type="date"
-                  id="start-date"
+                  type="text"
+                  id="code"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition duration-200"
-                  {...register("startDate")}
+                  placeholder="Code"
+                  {...register("code")}
                   required
                 />
-                {errors.startDate && (
+                {errors.code && (
                   <span className="text-red-500 text-sm">
-                    {errors.startDate.message}
+                    {errors.code.message}
                   </span>
                 )}
               </div>

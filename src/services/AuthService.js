@@ -1,6 +1,7 @@
 import axios from "axios";
 import { handleError } from "./ErrorHandler";
 import { data } from "autoprefixer";
+import { toast } from "react-toastify";
 
 const api = "http://localhost:5247/api/";
 
@@ -18,14 +19,14 @@ export const loginAPI = async (email, password) => {
   }
 };
 
-export const registerAPI = async (firstName, lastName, email, employeeRole, startDate, password, confirmPassword) => {
+export const registerAPI = async (firstName, lastName, email, employeeRole, code, password, confirmPassword) => {
   try {
     const data = await axios.post(api + "auth/register", {
       firstName: firstName,
       lastName: lastName,
       email: email,
       employeeRole: employeeRole,
-      startDate: startDate,
+      code: code,
       password: password,
       confirmPassword: confirmPassword,
     });
@@ -33,6 +34,7 @@ export const registerAPI = async (firstName, lastName, email, employeeRole, star
   } catch (error) {
     // handleError(error);
     console.error(error);
+    return error.response;
   }
 };
 

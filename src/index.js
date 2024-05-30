@@ -12,6 +12,7 @@ import LoginPage from "./pages/Login";
 import CalendarPage from "./pages/Calendar";
 import LeaveRequestPage from "./pages/LeaveRequest";
 import ResetPasswordPage from "./pages/ResetPassword";
+import NewEmployeePage from "./pages/NewEmployee";
 
 import { AuthProvider } from "./context/Auth";
 
@@ -26,7 +27,8 @@ export default function App() {
             <Route path="login" element={<LoginPage />} />
             <Route path="calendar" element={<CalendarPage />} />
             <Route path="leave-request" element={<LeaveRequestPage />} />
-            <Route
+            <Route path="/new" element={<NewEmployeePage />} />
+            <Route 
               path="/reset-password/:token/:email"
               element={<ResetPasswordPage />}
             />

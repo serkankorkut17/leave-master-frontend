@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
     lastName,
     email,
     employeeRole,
-    startDate,
+    code,
     password,
     confirmPassword
   ) => {
@@ -57,16 +57,19 @@ export const AuthProvider = ({ children }) => {
         lastName,
         email,
         employeeRole,
-        startDate,
+        code,
         password,
         confirmPassword
       );
-      if (response) {
+      if (response.status === 400) {
+        toast.warning(response.data);
+      }
+      else if (response.statusText === "OK") {
         toast.success("Signup successful");
         console.log(response.data);
         navigate("/login");
       } else {
-        toast.warning("Email already exists! Please login.");
+        toast.warning(response.data);
       }
     } catch (error) {
       toast.warning("Server error occurred");
