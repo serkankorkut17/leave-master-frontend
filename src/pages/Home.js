@@ -8,11 +8,14 @@ import {
 } from "../services/LeaveService";
 import { toast } from "react-toastify";
 import { FaCheck, FaTimes } from "react-icons/fa";
+import LeaveRequestModal from "../components/LeaveRequestModal";
 
 function HomePage() {
   const { user, token, role, isLoggedIn } = useAuthContext();
   const navigate = useNavigate();
   const [leaveRequests, setLeaveRequests] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
   useEffect(() => {
     if (!isLoggedIn()) {
@@ -69,6 +72,11 @@ function HomePage() {
     }
   };
 
+  const openRequestHandler = (id) => {
+    setOpenModal(true);
+    setSelectedRequest(id);
+  }
+
   return (
     <div className="container mx-auto mt-20 mb-4">
       <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-white">
@@ -113,7 +121,7 @@ function HomePage() {
                 </thead>
                 <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
                   {leaveRequests.map((request) => (
-                    <tr key={request.id} className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"    onClick={() => console.log("fdgfdg")}>
+                    <tr key={request.id} className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"    onClick={() => openRequestHandler(request.id)}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                         {request.userName}
                       </td>
@@ -151,6 +159,7 @@ function HomePage() {
           </div>
         </div>
       )}
+      {openModal && (<LeaveRequestModal setOpenModal={setOpenModal} requestId={selectedRequest}/>)}
     </div>
   );
 }
