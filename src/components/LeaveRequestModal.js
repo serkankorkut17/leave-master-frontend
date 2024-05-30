@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useAuthContext } from "../context/Auth";
-import { getLeaveRequestAPI } from "../services/LeaveRequestService";
-import Loading from "./Loading";
+import React, { useEffect, useState } from 'react';
+import { useAuthContext } from '../context/Auth';
+import { getLeaveRequestAPI } from '../services/LeaveRequestService';
+import Loading from './Loading';
+import { FaCheck, FaTimes } from 'react-icons/fa';
+import {
+  approveLeaveRequestAPI,
+  refuseLeaveRequestAPI,
+} from '../services/LeaveService';
+import { toast } from 'react-toastify';
 
-const LeaveRequestModal = (props) => {
-  const { setOpenModal, requestId } = props;
+const LeaveRequestModal = props => {
+  const { setOpenModal, requestId, leaveRequests, setLeaveRequests } = props;
   const [leaveRequest, setLeaveRequest] = useState(null);
   const [sameRoleCollisions, setSameRoleCollisions] = useState([]);
   const [differentRoleCollisions, setDifferentRoleCollisions] = useState([]);
-  const [recommendation, setRecommendation] = useState("");
+  const [recommendation, setRecommendation] = useState('');
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -33,6 +39,38 @@ const LeaveRequestModal = (props) => {
     };
     fetchLeaveRequest();
   }, [token, requestId]);
+
+  const handleApprove = async () => {
+    try {
+      const response = await approveLeaveRequestAPI(requestId);
+      if (response) {
+        toast.success('Leave request approved');
+        setLeaveRequests(leaveRequests.filter((request) => request.id !== requestId));
+        setOpenModal(false); // Close the modal after approval
+      } else {
+        toast.error('Failed to approve leave request');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to approve leave request');
+    }
+  };
+
+  const handleRefuse = async () => {
+    try {
+      const response = await refuseLeaveRequestAPI(requestId);
+      if (response) {
+        toast.success('Leave request refused');
+        setLeaveRequests(leaveRequests.filter((request) => request.id !== requestId));
+        setOpenModal(false); // Close the modal after refusal
+      } else {
+        toast.error('Failed to refuse leave request');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to refuse leave request');
+    }
+  };
 
   return (
     <>
@@ -159,6 +197,22 @@ const LeaveRequestModal = (props) => {
                       {recommendation}
                     </p>
                   </div>
+                </div>
+                <div className="flex justify-center">
+                  <button
+                    onClick={handleApprove}
+                    className="text-green-600 hover:text-green-900 p-2 flex items-center"
+                  >
+                    <FaCheck className="w-5 h-5 mr-1" />
+                    <span>Approve</span>
+                  </button>
+                  <button
+                    onClick={handleRefuse}
+                    className="text-red-600 hover:text-red-900 p-2 ml-4 flex items-center"
+                  >
+                    <FaTimes className="w-5 h-5 mr-1" />
+                    <span>Refuse</span>
+                  </button>
                 </div>
               </div>
             )}
