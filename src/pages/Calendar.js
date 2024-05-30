@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import CalendarDays from '../components/CalendarDays';
 import Loading from '../components/Loading';
+import { getLeavesAPI } from '../services/LeaveService';
+import { useAuthContext } from '../context/Auth';
+import { set } from 'date-fns';
 
 const Calendar = () => {
+  const { token } = useAuthContext();
   const [isLoading, setIsLoading] = useState(true);
   const [collisionDays, setCollisionDays] = useState({
     sameType: [],
@@ -57,15 +61,31 @@ const Calendar = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
+    if (!token) return;
+    if (!currentDay) return;
+    // console.log(currentDay.getMonth(), currentDay.getFullYear());
+    const fetchLeaves = async () => {
+      const response = await getLeavesAPI(currentDay.getMonth()+1, currentDay.getFullYear());
+      if (response) {
+        // console.log(response.data);
+        setCollisionDays({
+          sameType: response.data.sameRoleDays,
+          differentType: response.data.otherRoleDays,
+        });
+      }
+    };
+    fetchLeaves();
+    setIsLoading(false);
     //wait for 500ms
-    setTimeout(() => {
-      setCollisionDays({
-        sameType: [1, 2, 3, 4, 5, 10, 29],
-        differentType: [4, 5, 6, 7, 8, 9, 10, 17, 30],
-      });
-      setIsLoading(false);
-    }, 500);
-  }, []);
+    // setTimeout(() => {
+    //   setCollisionDays({
+    //     sameType: [1, 2, 3, 4, 5, 10, 29],
+    //     differentType: [4, 5, 6, 7, 8, 9, 10, 17, 30],
+    //   });
+    //   setIsLoading(false);
+    // }, 500);
+  }, [currentDay, token]);
 
   return (
     <>

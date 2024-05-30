@@ -14,7 +14,7 @@ const validationSchema = Yup.object().shape({
   employeeRole: Yup.string()
     .required()
     .oneOf(
-      ["analyst","frontend", "backend", "fullstack", "tester", "designer", "manager", "hr"],
+      ["analyst","frontend", "backend", "fullstack", "tester", "designer"],
       "Invalid Employee Role"
     ),
   startDate: Yup.date().required(),
@@ -156,8 +156,6 @@ const SignupPage = () => {
                   <option value="fullstack">Fullstack Developer</option>
                   <option value="tester">Tester</option>
                   <option value="designer">Designer</option>
-                  <option value="manager">Manager</option>
-                  <option value="hr">HR</option>
                 </select>
                 {errors.employeeRole && (
                   <span className="text-red-500 text-sm">

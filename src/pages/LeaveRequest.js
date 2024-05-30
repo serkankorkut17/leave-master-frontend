@@ -27,7 +27,7 @@ const LeaveRequestPage = () => {
   };
 
   const [range, setRange] = useState(initialRange);
-  const [maxLeaveDays, setMaxLeaveDays] = useState(5);
+  const [maxLeaveDays, setMaxLeaveDays] = useState(0);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -69,7 +69,7 @@ const LeaveRequestPage = () => {
     const fetchMaxLeaveDays = async () => {
       const response = await getMaxLeaveDaysAPI();
       // console.log(response.data);
-      setMaxLeaveDays(response.data);
+      if (response.data) setMaxLeaveDays(response.data);
     };
     fetchMaxLeaveDays();
   }, [token]);

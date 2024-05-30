@@ -102,6 +102,7 @@ const LoginPage = () => {
               <div className="flex justify-between items-center mb-6">
                 <div>
                   <button
+                  type="button"
                     onClick={forgetPasswordHandler}
                     className="text-sm text-blue-600 hover:underline dark:text-blue-400"
                   >

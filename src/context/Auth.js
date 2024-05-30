@@ -2,7 +2,13 @@ import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { loginAPI, registerAPI, resetPasswordRequestAPI, resetPasswordAPI } from "../services/AuthService";
+import {
+  loginAPI,
+  registerAPI,
+  resetPasswordRequestAPI,
+  resetPasswordAPI,
+} from "../services/AuthService";
+import { getRoleAPI } from "../services/AdminService";
 
 export const AuthContext = createContext();
 
@@ -11,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
   // const [userInfo, setUserInfo] = useState({
   //   firstName: '',
   //   lastName: '',
@@ -21,30 +28,60 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     const storedToken = localStorage.getItem("token");
+    const storedRole = localStorage.getItem("role");
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
       setToken(storedToken);
       axios.defaults.headers.common["Authorization"] = "Bearer " + storedToken;
     }
+    if (storedRole) {
+      setRole(storedRole);
+    }
     setIsReady(true);
   }, []);
 
-  const signup = async (firstName, lastName, email, employeeRole, startDate, password, confirmPassword) => {
+  // useEffect(() => {
+  //   if (!token) return;
+  //   axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+  //   const fetchRole = async () => {
+  //     const response = await getRoleAPI();
+  //     if (response) setRole(response.data);
+  //   };
+  //   fetchRole();
+  //   console.log("role", role);
+  // }, [token]);
+
+  const signup = async (
+    firstName,
+    lastName,
+    email,
+    employeeRole,
+    startDate,
+    password,
+    confirmPassword
+  ) => {
     // console.log(firstName, lastName, email, startDate, password, confirmPassword);
     try {
-      const response = await registerAPI(firstName, lastName, email, employeeRole, startDate, password, confirmPassword);
+      const response = await registerAPI(
+        firstName,
+        lastName,
+        email,
+        employeeRole,
+        startDate,
+        password,
+        confirmPassword
+      );
       if (response) {
         toast.success("Signup successful");
         console.log(response.data);
         navigate("/login");
-      }
-      else {
+      } else {
         toast.warning("Email already exists! Please login.");
       }
     } catch (error) {
       toast.warning("Server error occurred");
     }
-  }
+  };
 
   const login = async (email, password) => {
     try {
@@ -62,10 +99,20 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(userObj));
         setToken(response.data.token);
         setUser(userObj);
+        axios.defaults.headers.common["Authorization"] =
+          "Bearer " + response.data.token;
+        try {
+          const response = await getRoleAPI();
+          if (response) {
+            setRole(response.data);
+            localStorage.setItem("role", response.data); // Store the role in localStorage
+          }
+        } catch (error) {
+          console.error("Failed to fetch role:", error);
+        }
         toast.success("Login successful");
         navigate("/");
-      }
-      else {
+      } else {
         toast.warning("Invalid email or password! Please try again.");
       }
     } catch (error) {
@@ -79,8 +126,7 @@ export const AuthProvider = ({ children }) => {
       const response = await resetPasswordRequestAPI(email);
       if (response) {
         toast.success("Password reset request successful");
-      }
-      else {
+      } else {
         toast.warning("Email not found! Please try again.");
       }
     } catch (error) {
@@ -90,12 +136,16 @@ export const AuthProvider = ({ children }) => {
 
   const resetPassword = async (token, email, password, confirmPassword) => {
     try {
-      const response = await resetPasswordAPI(token, email, password, confirmPassword);
+      const response = await resetPasswordAPI(
+        token,
+        email,
+        password,
+        confirmPassword
+      );
       if (response) {
         toast.success("Password reset successful");
         navigate("/login");
-      }
-      else {
+      } else {
         toast.warning("Password reset failed! Please try again.");
       }
     } catch (error) {
@@ -116,7 +166,19 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, signup, login, logout, resetPassword, resetPasswordRequest, isLoggedIn}}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        role,
+        signup,
+        login,
+        logout,
+        resetPassword,
+        resetPasswordRequest,
+        isLoggedIn,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
