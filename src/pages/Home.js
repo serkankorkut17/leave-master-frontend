@@ -9,6 +9,7 @@ import {
 import { toast } from 'react-toastify';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import LeaveRequestModal from '../components/LeaveRequestModal';
+import Loading from '../components/Loading';
 
 function HomePage() {
   const { user, token, role, isLoggedIn } = useAuthContext();
@@ -16,6 +17,9 @@ function HomePage() {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     if (!isLoggedIn()) {
@@ -25,6 +29,7 @@ function HomePage() {
 
   useEffect(() => {
     if (!token) return;
+    setIsLoading(true);
     // fetch leave requests
     const fetchLeaveRequests = async () => {
       try {
@@ -39,6 +44,7 @@ function HomePage() {
       }
     };
     fetchLeaveRequests();
+    setIsLoading(false);
   }, [token]);
 
   const handleApprove = async id => {
@@ -78,6 +84,8 @@ function HomePage() {
   };
 
   return (
+    <>
+      {isLoading && <Loading />}
     <div className="container mx-auto mt-20 mb-4">
       <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-white">
         Welcome, {user?.firstName} {user?.lastName}
@@ -178,6 +186,7 @@ function HomePage() {
         />
       )}
     </div>
+    </>
   );
 }
 

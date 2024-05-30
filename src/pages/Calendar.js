@@ -61,9 +61,9 @@ const Calendar = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
     if (!token) return;
     if (!currentDay) return;
+    setIsLoading(true);
     // console.log(currentDay.getMonth(), currentDay.getFullYear());
     const fetchLeaves = async () => {
       const response = await getLeavesAPI(currentDay.getMonth()+1, currentDay.getFullYear());

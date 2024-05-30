@@ -10,3 +10,12 @@ export const getRoleAPI = async () => {
     console.error(error);
   }
 };
+
+export const getUsersAPI = async () => {
+  try {
+    const data = await axios.get(api + "get-users");
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

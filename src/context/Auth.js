@@ -40,16 +40,6 @@ export const AuthProvider = ({ children }) => {
     setIsReady(true);
   }, []);
 
-  // useEffect(() => {
-  //   if (!token) return;
-  //   axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-  //   const fetchRole = async () => {
-  //     const response = await getRoleAPI();
-  //     if (response) setRole(response.data);
-  //   };
-  //   fetchRole();
-  //   console.log("role", role);
-  // }, [token]);
 
   const signup = async (
     firstName,
