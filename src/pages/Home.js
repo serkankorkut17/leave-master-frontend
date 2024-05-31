@@ -33,6 +33,7 @@ function HomePage() {
         const response = await getLeaveRequestsAPI();
         if (response) {
           setLeaveRequests(response.data);
+          // console.log(response.data);
         }
       } catch (error) {
         console.log(error);
@@ -244,18 +245,9 @@ function HomePage() {
         {openModal && selectedRequest && (
           <LeaveRequestModal
             setOpenModal={setOpenModal}
-            leaveRequest={leaveRequests.find(request => request.id === selectedRequest)}
-            sameRoleCollisions={leaveRequests.filter(
-              req => req.role === user.role && req.startDate <= leaveRequests.find(request => request.id === selectedRequest).endDate && req.endDate >= leaveRequests.find(request => request.id === selectedRequest).startDate
-            ).length}
-            differentRoleCollisions={leaveRequests.filter(
-              req => req.role !== user.role && req.startDate <= leaveRequests.find(request => request.id === selectedRequest).endDate && req.endDate >= leaveRequests.find(request => request.id === selectedRequest).startDate
-            ).length}
-            recommendation={
-              leaveRequests.filter(
-                req => req.role === user.role && req.startDate <= leaveRequests.find(request => request.id === selectedRequest).endDate && req.endDate >= leaveRequests.find(request => request.id === selectedRequest).startDate
-              ).length > 0 ? 'Consider alternative dates' : 'Approved'
-            }
+            requestId={selectedRequest}
+            leaveRequests={leaveRequests}
+            setLeaveRequests={setLeaveRequests}
           />
         )}
       </div>
