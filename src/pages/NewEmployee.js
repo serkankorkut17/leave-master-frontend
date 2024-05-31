@@ -7,10 +7,17 @@ import {
 } from '../services/AdminService';
 import { useAuthContext } from '../context/Auth';
 import { FaClipboard } from 'react-icons/fa';
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+
+const validationSchema = Yup.object().shape({
+  // check if date is min 30 years before and max 1 years after today
+  date: Yup.date().required().min(new Date(new Date().getFullYear() - 30, 0, 1)).max(new Date(new Date().getFullYear() + 1, 11, 31)),
+});
 
 const NewEmployeePage = () => {
   const { token } = useAuthContext();
-  const [date, setDate] = useState('');
   const [employeeInfos, setEmployeeInfos] = useState([]);
 
   useEffect(() => {
@@ -29,17 +36,20 @@ const NewEmployeePage = () => {
     }
   };
 
-  const handleCreate = async () => {
-    if (!date) {
-      toast.error('Please select a date');
-      return;
-    }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
+  const handleCreate = async (data) => {
     try {
-      const response = await createNewEmployeeInfoAPI(date);
+      const response = await createNewEmployeeInfoAPI(data.date);
       if (response) {
         toast.success('Employee info created successfully');
         fetchEmployeeInfos(); // Refresh the list
-        setDate(''); // Clear the input
       }
     } catch (error) {
       console.error(error);
@@ -78,15 +88,26 @@ const NewEmployeePage = () => {
         <p className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mt-4 mb-6 md:mb-8">
           Add New Employee
         </p>
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center items-center
+         mb-4">
+          <label
+            htmlFor="date"
+            className="block text-gray-900 dark:text-white mr-4"
+          >
+            Start Date:
+          </label>
           <input
             type="date"
-            value={date}
-            onChange={e => setDate(e.target.value)}
+            {...register("date")}
             className="border p-2 rounded-md dark:bg-gray-800 dark:text-white"
           />
+          {errors.date && (
+            <span className="text-red-500 dark:text-red-400">
+              Start date is required
+            </span>
+          )}
           <button
-            onClick={handleCreate}
+            onClick={handleSubmit(handleCreate)}
             className="ml-4 p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
           >
             Create

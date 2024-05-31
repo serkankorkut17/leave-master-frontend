@@ -20,6 +20,15 @@ export const getLeaveRequestAPI = async (id) => {
   }
 };
 
+export const getUsersLeaveRequestAPI = async () => {
+  try {
+    const data = await axios.get(api + "leave-request");
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export const createLeaveRequestAPI = async (reason, from, to) => {
   try {
     const data = await axios.post(api + "leave-request", {

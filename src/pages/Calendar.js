@@ -39,6 +39,10 @@ const Calendar = () => {
   };
 
   const nextMonth = () => {
+    setCollisionDays({
+      sameType: [],
+      differentType: [],
+    });
     setCurrentDay(prevDay => {
       const newDate = new Date(
         prevDay.getFullYear(),
@@ -50,6 +54,10 @@ const Calendar = () => {
   };
 
   const previousMonth = () => {
+    setCollisionDays({
+      sameType: [],
+      differentType: [],
+    });
     setCurrentDay(prevDay => {
       const newDate = new Date(
         prevDay.getFullYear(),

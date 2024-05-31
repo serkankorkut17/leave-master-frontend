@@ -101,7 +101,7 @@ const Authenticated = () => {
               />
             </svg>
 
-            <span className="flex-1 ms-3 whitespace-nowrap">New</span>
+            <span className="flex-1 ms-3 whitespace-nowrap">New Employee</span>
           </Link>
         </li>
       )}
